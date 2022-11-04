@@ -1,332 +1,163 @@
-# form
-```
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form</title>
-</head>
-
-<body>
-    <form>
-        <table>
-            <tr>
-                <td><label for="fname">First Name: </label></td>
-                <td><input type="text" name="fname"></td>
-            </tr>
-            <tr>
-                <td><label for="lname">Last Name:</label></td>
-                <td><input type="text" name="lname"></td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="Address">Personal Address:</label>
-                </td>
-                <td>
-                    <textarea placeholder="Address"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>SEX</td>
-                <td>
-                    <input type="radio" name="sex" id="male">
-                    <label for="male">Male</label>
-                    <input type="radio" name="sex" id="female">
-                    <label for="female">Female</label>
-                </td>
-            </tr>
-            <tr>
-                <td>EMAIL ID</td>
-                <td>
-                    <input type="text" name="email" id="email">
-                </td>
-            </tr>
-            <tr>
-                <td>DOB</td>
-                <td>
-                    <input type="date" name="DOB" id="DOB">
-                </td>
-            </tr>
-            <tr>
-                <td>CITY</td>
-                <td>
-                    <select name="City" id="city">
-                        <option value="-1" selected>select..</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Mumbai">Mumbai</option>
-                        <option value="Goa">Goa</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Course Name</td>
-                <td>
-                    <select name="Course" id="course">
-                        <option value="-1" selected>select..</option>
-                        <option value="Computer Engineering">Computer Engineering</option>
-                        <option value="IT">IT</option>
-                        <option value="CSE-AIML">CSE-AIML</option>
-                    </select>
-
-                </td>
-            </tr>
-            <tr>
-                <td><input type="date"></td>
-                <td>
-                    <input type="submit" value="submit">
-                    <input type="reset" value="rest">
-                </td>
-            </tr>
-        </table>
-    </form>
-</body>
-
-</html>
+# olap
 ```
 
+CREATE table Inventory(Inventory_id int PRIMARY KEY NOT NULL,
+   Inventory_name varchar(60) NOT NULL,
+   Inventory_catogory varchar(255) NOT NULL,
+   brand_name varchar(255) NOT NULL,
+   supplier_name varchar(255) NOT NULL,
+   Inventory_price int NOT NULL);
+insert into Inventory values(1, 'BOMBAY', 'FIRST', 'TEA', 'AYAN', 10);
+insert into Inventory values(2, 'NEW-YORK', 'SECOND', 'COFFEE', 'RIHAN', 20);
+insert into Inventory values(3, 'LONDON', 'THIRD', 'DRUGS', 'ASFHAN', 30);
+insert into Inventory values(4, 'SHANGHAI', 'FOURTH', 'MILK', 'HASNAIN', 40);
 
-# validation
-```<!DOCTYPE html>
-<html lang="en">
+CREATE table Location(loc_id int PRIMARY KEY NOT NULL,
+  street varchar(60) NOT NULL,
+  city varchar(255) NOT NULL,
+  state varchar(255) NOT NULL,
+  country varchar(255) NOT NULL);
+insert into Location values(201, 'FORT', 'MUMBAI', 'MAHARASHTRA', 'INDIA');
+insert into Location values(202, 'WALL ST', 'NY', 'NYS', 'USA');
+insert into Location values(203, 'PATERNOSTERSQ', 'LONDON', 'ENGLAND', 'UK');
+insert into Location values(204, 'SOUTH ROAD', 'SHANGHAI', 'ZHUYUAN', 'CHINA');
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validation</title>
-</head>
+CREATE table Orders(order_id int PRIMARY KEY NOT NULL,
+date_required DATE NOT NULL,
+date_completed DATE NOT NULL,
+no_of_orders int NOT NULL,
+time_req_for_orders varchar(200) NOT NULL);
+insert into Orders values(301, '2021-1-17', '2021-2-14', 1000, '1-MONTH');
+insert into Orders values(302, '2021-2-14', '2021-5-21', 2000, '3-MONTH');
+insert into Orders values(303, '2021-5-21', '2021-6-26', 3000, '1-MONTH');
+insert into Orders values(304, '2021-6-26', '2021-1-17', 4000, '7-MONTH');
 
-<body>
-    <label for="username">Username:</label>
-    <input type="text" id="username">
-    <script>
-        const ptrn = /^([^a-z\W]*)$/;
-        const inp = document.getElementById('username');
-        function validtion() {
-            if (ptrn.test(inp.value))
-                inp.style.backgroundColor = 'green';
-            else
-                inp.style.backgroundColor = 'red';
-        }
-        inp.addEventListener("keyup", validtion);
-    </script>
-</body>
+CREATE table Time(time_id int PRIMARY KEY NOT NULL,
+  day DATE NOT NULL,
+  month varchar(255) NOT NULL,
+  qt varchar(255) NOT NULL,
+  year varchar(255) NOT NULL);
+insert into Time values(101, '2021-1-17', 'JANUARY', 'Q1', 2021);
+insert into Time values(102, '2021-2-14', 'FEBRUARY', 'Q1', 2021);
+insert into Time values(103, '2021-5-21', 'MAY', 'Q2', 2021);
+insert into Time values(104, '2021-6-26', 'JUNE', 'Q2', 2021);
 
-</html>
-```
+create table FACT_TABLE(Inventory_id int REFERENCES Inventory(Inventory_id),
+time_id int REFERENCES Time(time_id),
+loc_id int REFERENCES Location(loc_id),
+order_id int REFERENCES Orders(order_id),
+no_of_investor int NOT NULL,
+total_order int NOT NULL);
+insert into FACT_TABLE values(1, 101, 201, 301, 40, 9000);
+insert into FACT_TABLE values(1, 102, 201, 302, 40, 7000);
+insert into FACT_TABLE values(1, 103, 201, 303, 40, 8000);
+insert into FACT_TABLE values(1, 104, 201, 304, 40, 7000);
 
-# table
-```<!DOCTYPE html>
-<html lang="en">
+SELECT * FROM Inventory;
+SELECT * FROM Orders;
+SELECT * FROM Location;
+SELECT * FROM Time;
+SELECT * FROM FACT_TABLE;
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Table</title>
-    <style>
-        table,
-        th,
-        td {
-            border: 2px solid;
-        }
 
-        table {
-            border-spacing: 10px;
-        }
+SELECT Inventory_name, no_of_investor, day
+FROM((FACT_TABLE INNER JOIN Inventory on FACT_TABLE.Inventory_id=Inventory.Inventory_id)
+ JOIN Time on FACT_TABLE.time_id=Time.time_id)
+WHERE brand_name = 'TEA';
 
-        th,
-        td {
-            padding: 25px;
-        }
-    </style>
-</head>
+SELECT Inventory_name, FACT_TABLE.no_of_investor
+FROM((Inventory INNER JOIN FACT_TABLE on Inventory.Inventory_id=FACT_TABLE.Inventory_id)
+ JOIN Time on FACT_TABLE.time_id=Time.time_id)
+WHERE Inventory_name = 'BOMBAY' and qt = 'Q1';
 
-<body>
-    <h2>INFORMATION TABLE</h2>
-    <table>
-        <tr>
-            <th>Sr.no</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Hanzala</td>
-            <td>Ansari</td>
-            <td>19</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>55</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>x</td>
-            <td>y</td>
-            <td>-2</td>
-        </tr>
-    </table>
-</body>
+SELECT year, SUM(no_of_investor)
+FROM(FACT_TABLE NATURAL JOIN Inventory)
+JOIN Time on FACT_TABLE.time_id = Time.time_id
+WHERE Inventory_name = 'BOMBAY' GROUP BY year;
 
-</html>
-```
-
-# pseudo
-```
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pseudo</title>
-    <style>
-        .intro::first-line {
-            background-color: red;
-        }
-
-        .intro::first-letter {
-            background-color: green;
-        }
-
-        li:nth-child(even) {
-            background-color: aqua;
-        }
-
-        li:first-child {
-            background-color: pink;
-        }
-
-        li:hover {
-            background-color: yellow;
-        }
-
-        a:visited {
-            color: orange;
-        }
-
-        a:hover {
-            color: red;
-        }
-    </style>
-</head>
-
-<body>
-    <p class="intro">
-        In my younger and more vulnerable years
-        my father gave me some advice that I've
-        been turning over in my mind ever since.
-        'Whenever you feel like criticizing anyone,' he told me,
-        'just remember that all the people in this world
-        haven't had the advantages that you've had.'
-    </p>
-    <a href="https://www.google.com">GOOGLE</a>
-    <ul>
-        <li>Hanzala</li>
-        <li>Ansari</li>
-        <li>John</li>
-        <li>Doe</li>
-    </ul>
-</body>
-
-</html>
-```
-
-# node
+SELECT qt, SUM(no_of_investor)
+FROM(FACT_TABLE NATURAL JOIN Inventory)
+JOIN Time on FACT_TABLE.time_id = Time.time_id
+WHERE Inventory_name = 'BOMBAY' GROUP BY qt;
 
 ```
-const fs = require("fs");
-let filedata = fs.readFileSync('file.txt');
-console.log(filedata.toString());
 
-// fs.readFile('file.txt', (err, filedata) => {
-//     if (err) return console.error(err);
-//     console.log(filedata.toString());
-// });
-console.log("END of Program")
+# naive
+```
+from sklearn.naive_bayes import GaussianNB
+from sklearn import preprocessing
+weather = ['Sunny', 'Sunny', 'Overcast', 'Rainy', 'Rainy', 'Rainy',
+           'Overcast', 'Sunny', 'Sunny', 'Rainy', 'Sunny', 'Overcast', 'Overcast', 'Rainy']
+temp = ['Hot', 'Hot', 'Hot', 'Mild', 'Cool', 'Cool', 'Cool',
+        'Mild', 'Cool', 'Mild', 'Mild', 'Mild', 'Hot', 'Mild']
+play = ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes',
+        'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+
+le = preprocessing.LabelEncoder()
+weather_encoded = le.fit_transform(weather)
+print("Weather Encoded:", weather_encoded)
+
+temp_encoded = le.fit_transform(temp)
+label = le.fit_transform(play)
+print("Temp:", temp_encoded)
+print("Play:", label)
+
+features = [tup for tup in zip(weather_encoded, temp_encoded)]
+print("Features: ", features)
+model = GaussianNB()
+model.fit(features, label)
+predicted = model.predict([[0, 2]])
+print("Predicted Value:", predicted)
+
 ```
 
-# class
+# page
 ```
-<!DOCTYPE html>
-<html lang="en">
+import networkx as nx
+import numpy as np
+from numpy import array
+import matplotlib.pyplot as plt
+with open('hits.txt') as f:
+    lines = f.readlines()
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class</title>
-</head>
+G = nx.DiGraph()
 
-<body>
-    <h1>Class and Objects</h1>
-    <script>
-        class Vehicle {
-            constructor(brand) {
-                this.carName = brand;
-            }
-            info() {
-                document.write("Super Class<br>")
-                document.write(`My Vehicle is : ${this.carName} <br>`)
-            }
-        }
-        class Car extends Vehicle {
-            constructor(brand) {
-                super(brand);
-                this.noDoors = 4;
-                this.noWheels = 4;
-            }
-            info() {
-                super.info();
-                document.write("Sub Class<br>")
-                document.write(`No of Doors : ${this.noDoors} <br>`)
-                document.write(`No of Wheels : ${this.noWheels} <br>`)
-            }
-        }
-        car1 = new Car("Mini Cooper");
-        car1.info();
-        vehicle1 = new Vehicle("Mercedes");
-        vehicle1.info();
-    </script>
-</body>
+for line in lines:
+    t = tuple(line.strip().split(','))
+    G.add_edge(*t)
 
-</html>
-```
+h, a = nx.hits(G, max_iter=100)
+h = dict(sorted(h.items(), key=lambda x: x[0]))
+a = dict(sorted(a.items(), key=lambda x: x[0]))
 
+print(np.round(list(a.values()), 3))
+print(np.round(list(h.values()), 3))
 
-# bootstrap
-```
+pr = nx.pagerank(G)
+pr = dict(sorted(pr.items(), key=lambda x: x[0]))
+print(np.round(list(pr.values()), 3))
 
-<!DOCTYPE html>
-<html lang="en">
+sim = nx.simrank_similarity(G)
+lol = [[sim[u][v] for v in sorted(sim[u])] for u in sorted(sim)]
+sim_array = np.round(array(lol), 3)
+print(sim_array)
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BootStrap</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+nx.draw(G, with_labels=True, node_size=2000, edge_color='#eb4034', width=3, font_size=16, font_weight=500, arrowsize=20, alpha=0.8)
+plt.savefig("graph.png")
+1,4
+2,3
+2,5
+3,1
+4,2
+4,3
+5,3
+5,2
+5,4
+5,6
+6,3
+6,8
+7,1
+7,3
+8,1
 
-<body>
-    <h1>BootStrap Grid</h1>
-    <div class="row">
-        <div class="col-md-3" style="background-color:red;">Hanzala</div>
-        <div class="col-md-3" style="background-color:blue;">Ansari</div>
-        <div class="col-md-3" style="background-color:yellow;">John</div>
-        <div class="col-md-3" style="background-color:green;">Doe</div>
-    </div>
-</body>
-
-</html>
 ```
